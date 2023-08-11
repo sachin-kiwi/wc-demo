@@ -1,6 +1,6 @@
 import { useAccount, useConnect, useNetwork, useDisconnect } from "wagmi";
 import React from "react";
-import SignMessage from "./transaction";
+import { SignMessage, SendTxn } from "./transaction";
 import NetworkSwitch from "./network";
 const { useEffect, useState } = React;
 const Home = () => {
@@ -35,15 +35,16 @@ const Home = () => {
   return (
     <>
       <div>
-        {isConnected ? <p>Address: {address}</p> : null}
         {isConnected ? (
-          <p>Connected to correct Network {`${isValidNetwork}`}</p>
+          <>
+            <h1>Connection Status</h1>
+            <p>
+              Address: {address}
+              <br />
+              Connected to correct Network {`${isValidNetwork}`}
+            </p>
+          </>
         ) : null}
-
-        <p>{isConnected ? "Connected Now" : null}</p>
-        <button disabled={!isConnected} onClick={disconnect}>
-          Disconnect
-        </button>
         {connectors.map((connector) => (
           <button
             className="mb-2"
@@ -54,10 +55,14 @@ const Home = () => {
             Connect
           </button>
         ))}
+        <button disabled={!isConnected} onClick={disconnect}>
+          Disconnect
+        </button>
         {isConnected ? (
           <>
             <NetworkSwitch />
             <SignMessage />
+            <SendTxn />
           </>
         ) : null}
       </div>
