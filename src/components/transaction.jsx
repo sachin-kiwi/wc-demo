@@ -3,8 +3,16 @@ import { recoverMessageAddress } from "viem";
 import { useEffect, useState } from "react";
 function SignMessage() {
   const message = "gm wagmi frens";
-  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+  const { data, isLoading, isSuccess, signMessage } = useSignMessage({
     message,
+    onSettled(data, error) {
+      if (error !== null) {
+        console.log(error);
+        return;
+      }
+      console.log(`Signature Data:${data}`);
+      console.log(`Recovered Address ${recoveredAddress}`);
+    },
   });
 
   const [recoveredAddress, setRecoveredAddress] = useState("");
@@ -26,9 +34,6 @@ function SignMessage() {
       <button disabled={isLoading} onClick={() => signMessage()}>
         Sign message
       </button>
-      {isSuccess && <div>Signature: {data}</div>}
-      {data ? `Recovered Address ${recoveredAddress}` : null}
-      {isError && <div>Error signing message</div>}
     </div>
   );
 }

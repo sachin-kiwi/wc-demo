@@ -1,6 +1,7 @@
 import { useAccount, useConnect, useNetwork, useDisconnect } from "wagmi";
 import React from "react";
 import SignMessage from "./transaction";
+import NetworkSwitch from "./network";
 const { useEffect, useState } = React;
 const Home = () => {
   const { isConnected, address } = useAccount();
@@ -53,7 +54,12 @@ const Home = () => {
             Connect
           </button>
         ))}
-        {isConnected ? <SignMessage /> : null}
+        {isConnected ? (
+          <>
+            <NetworkSwitch />
+            <SignMessage />
+          </>
+        ) : null}
       </div>
     </>
   );
